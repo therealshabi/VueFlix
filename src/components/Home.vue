@@ -136,6 +136,7 @@ export default {
   methods: {
       toggleFavorite(movieId) {
           this.movies[movieId].favorite  = !this.movies[movieId].favorite;
+          this.$forceUpdate();
       },
 
       handleMovieClick(movieId) {

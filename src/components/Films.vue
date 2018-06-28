@@ -1,5 +1,5 @@
 <template>
-<div :style='{backgroundImage: movie.largeImgSrc}' :class="{'films-bg': true, favorite: movie.favorite}">
+<div :style='{backgroundImage: `url(${movie.largeImgSrc})`}' :class="{'films-bg': true, favorite: movie.favorite}">
     <iframe :src="movie.trailerPath" style="width:100%; height:100%" frameborder="0" allowfullscreen v-if="play"></iframe>
     <div style="width:100%" v-else> 
         <div class="header">
@@ -63,6 +63,7 @@ export default {
   methods: {
       toggleFav() {
           this.$emit('toggleFavorite',this.movie.id);
+          this.$forceUpdate();
       },
 
       handleTab(tab) {
