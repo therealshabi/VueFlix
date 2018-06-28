@@ -1,7 +1,7 @@
 <template>
 <div :style='{backgroundImage: movie.largeImgSrc}' :class="{'films-bg': true, favorite: movie.favorite}">
     <iframe :src="movie.trailerPath" style="width:100%; height:100%" frameborder="0" allowfullscreen v-if="play"></iframe>
-    <div v-else> 
+    <div style="width:100%" v-else> 
         <div class="header">
             <i class="material-icons" style="font-size:48px;color:red;cursor: pointer; margin:auto 0">menu</i>
             <div class="nav">
@@ -15,7 +15,7 @@
                 <span style="color:white; font-size:40px; font-weight:bold">{{movie.title}}</span><br>
                 <span style="color:red; font-weight:bold">{{movie.duration}} | {{movie.genre}} | {{movie.releaseDate}}</span>
             </p>
-            <p style="color:white;line-height:1.5">{{movie.description}}</p>
+            <p style="color:white;line-height:1.5" class=fixed-line>{{movie.description}}</p>
             <div style="display:flex">
                 <div style="display:flex; cursor:pointer; background-color:#DE0000;color:white; border-radius: 500px; border:none; width:fit-content; padding:5px 12px 5px 16px" v-on:click="$emit('togglePlay')">
                     <span style="display:block;margin-top:3px;font-weight:bold;margin-right:2px">Play</span> 
@@ -103,7 +103,6 @@ export default {
     .header {
         display: flex;
         width:100%;
-        height: 56px;
         padding: 6px;
         justify-content: flex-start;
         align-items: flex-start; 
@@ -145,5 +144,11 @@ export default {
 
     .favorite {
         box-shadow: 0px 0px 70px #cc8e33;
+    }
+
+    .fixed-line {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        max-height: 6em;
     }
 </style>

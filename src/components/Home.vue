@@ -6,11 +6,13 @@
       </div>
       <films class= "header" v-else :movie="movies[movieId]" :play="play" @togglePlay="play=!play" @toggleFavorite="toggleFavorite" @goHome = "movieId=''"></films>
       <section id="footer">
-          <div v-if="loading" style="color:white;font-size:24px">Loading...</div>
-          <div v-else v-for="movie in movies" v-on:click="handleMovieClick(movie.id)" style="padding:0px 10px; position: relative">
-            <img :src="movie.smallImgSrc" alt="placeholder" style="width:90%;">
-            <i v-if="movie.favorite" class="material-icons" style="position:absolute; right:10%; top: 2px; color:yellow; font-size:18px" >check_circle</i>
-          </div>
+          <div style="display: flex;">
+            <div v-if="loading" style="color:white;font-size:24px">Loading...</div>
+            <div v-else v-for="movie in movies" v-on:click="handleMovieClick(movie.id)" style="padding:5px 20px; position: relative">
+                <img :src="movie.smallImgSrc" alt="placeholder" style="width: 100%; height: 100%;">
+                <i v-if="movie.favorite" class="material-icons" style="position:absolute; right:10%; top: 2px; color:yellow; font-size:18px" >check_circle</i>
+            </div>
+            </div>
       </section>
   </div>
 </template>
@@ -171,7 +173,8 @@ export default {
 
     #footer {
         display:flex;
-        flex: 35%;
+        flex-direction: column;
+        height: 300px;
         justify-content:space-around; 
         align-items:center;       
         background-color: #A3081E;
@@ -180,8 +183,8 @@ export default {
 
     .header {
         display:flex;
+        height: 100%;
         flex-direction: column;
-        flex: 65%;
         background-color:#1F1D1D;
         align-items:center;
         justify-content:center;
