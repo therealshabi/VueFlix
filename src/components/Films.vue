@@ -1,6 +1,6 @@
 <template>
 <div :style='{backgroundImage: `url(${movie.largeImgSrc})`}' :class="{'films-bg': true, favorite: movie.favorite}">
-    <iframe :src="movie.trailerPath" style="width:100%; height:100%" frameborder="0" allowfullscreen v-if="play"></iframe>
+    <iframe :src="trailerPath" style="width:100%; height:100%" frameborder="0" allowfullscreen v-if="play"></iframe>
     <div style="width:100%" v-else> 
         <div class="header">
             <i class="material-icons" style="font-size:48px;color:red;cursor: pointer; margin:auto 0">menu</i>
@@ -10,14 +10,14 @@
             <div style="color:red;margin: auto 10px;font-weight:bold;cursor: pointer;" v-on:click="goHome">VUEFLIX</div>
         </div>
 
-        <div style="text-align:left;margin: 5px 40px; line-height:1.2; width:45%">
+        <div style="text-align:left;margin: 5px 40px; line-height:1.2; width:60%">
             <p>
                 <span style="color:white; font-size:40px; font-weight:bold">{{movie.title}}</span><br>
-                <span style="color:red; font-weight:bold">{{movie.duration}} | {{movie.genre}} | {{movie.releaseDate}}</span>
+                <span style="color:red; font-weight:bold">{{this.runtime}} | {{this.genre}} | {{movie.releaseDate}}</span>
             </p>
             <p style="color:white;line-height:1.5" class=fixed-line>{{movie.description}}</p>
             <div style="display:flex">
-                <div style="display:flex; cursor:pointer; background-color:#DE0000;color:white; border-radius: 500px; border:none; width:fit-content; padding:5px 12px 5px 16px" v-on:click="$emit('togglePlay')">
+                <div style="display:flex; cursor:pointer; background-color:#DE0000;color:white; border-radius: 500px; border:none; width:fit-content; padding:5px 12px 5px 16px" v-on:click="fetchYoutubeURL">
                     <span style="display:block;margin-top:3px;font-weight:bold;margin-right:2px">Play</span> 
                     <i class="material-icons" style="font-size:24p; margin:auto 0">play_arrow</i>
                 </div>
@@ -36,6 +36,8 @@
 </template>
 
 <script>
+import axios from 'axios'
+
 export default {
   name: 'Films',
   props: {
@@ -51,16 +53,24 @@ export default {
   },
   data() {
       return {
-          selectedTab: "Films",
-          tabs: [
-              "Home",
-              "Films",
-              "Shows",
-              "Music"
-          ],
+            selectedTab: "Films",
+            genre: '',
+            runtime:'',
+            BASE_YOUTUBE_TRAILER_URL: 'https://www.youtube.com/embed/',
+            API_KEY: "ab5a7db6d911744f7e4e910d9eb5582c",
+            BASE_URL: "https://api.themoviedb.org/3/movie/",
+            trailerPath: '',
+            tabs: [
+                "Home",
+                "Films",
+                "Shows",
+                "Music"
+            ],
       };
   },
   methods: {
+
+
       toggleFav() {
           this.$emit('toggleFavorite',this.movie.id);
           this.$forceUpdate();
@@ -73,10 +83,52 @@ export default {
         }
       },
 
+      fetchYoutubeURL() {
+          axios.get(this.BASE_URL+this.movie.id+'/videos', {
+            params : {
+                api_key : this.API_KEY,
+                language : "en-US",
+            }
+
+        }).then(response => {
+            console.log(response.data.results[0].key);
+            this.trailerPath = this.BASE_YOUTUBE_TRAILER_URL+response.data.results[0].key;
+            this.$emit('togglePlay');
+        });
+      },
+
       goHome() {
           this.$emit('goHome');
       }
-  }
+  },
+
+  updated() {
+        const API_KEY = "ab5a7db6d911744f7e4e910d9eb5582c";
+        const BASE_URL = "https://api.themoviedb.org/3/movie/";
+        const BASE_IMAGE_URL = "https://image.tmdb.org/t/p/w300_and_h450_bestv2";
+
+        axios.get(BASE_URL+this.movie.id, {
+            params : {
+                api_key : API_KEY,
+                language : "en-US",
+            }
+
+        }).then(response => {
+            console.log(response);
+            let x = [];
+            let duration = response.data.runtime;
+            let hour = Math.floor(duration / 60);
+            let min = duration % 60;
+            this.runtime = hour + 'hr ' + min + 'min'; 
+            _.forEach(response.data.genres, (genre, index) => {
+                x.push(genre.name);
+                if(index>1) {
+                    return false;
+                }
+            })
+            this.genre = x.join(',');
+        });
+   }
 }
 </script>
 
