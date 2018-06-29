@@ -38,6 +38,7 @@ export default {
         const API_KEY = "ab5a7db6d911744f7e4e910d9eb5582c";
         const BASE_URL = "https://api.themoviedb.org/3/discover/movie";
         const BASE_IMAGE_URL = "https://image.tmdb.org/t/p/w300_and_h450_bestv2";
+        const BASE_BACKDROP_IMAGE = "https://image.tmdb.org/t/p/w1400_and_h450_face";
         const BASE_YOUTUBE_TRAILER_URL = "https://www.youtube.com/watch?v=GTJr8OvyEVQ";
 
         axios.get(BASE_URL, {
@@ -55,7 +56,7 @@ export default {
                     id: movie.id,
                     title: movie.title,
                     description: movie.overview,
-                    largeImgSrc: BASE_IMAGE_URL+movie.poster_path,
+                    largeImgSrc: BASE_BACKDROP_IMAGE+movie.backdrop_path,
                     smallImgSrc: BASE_IMAGE_URL+movie.poster_path,
                     releaseDate: movie.release_date,
                     genre: movie.genre_ids,
