@@ -20,5 +20,15 @@ npm run build --report
 
 For a detailed explanation on how things work, check out the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
 
+## Demo Images
+
+<img src="/Screenshots/img1.png" alt="Vueflix Image 1" width= "880px"/>
+
+<img src="/Screenshots/img2.png" alt="Vueflix Image 2" width= "880px"/>
+
+<img src="/Screenshots/img3.png" alt="Vueflix Image 3" width= "880px"/>
+
+<img src="/Screenshots/img4.png" alt="Vueflix Image 4" width= "880px"/>
+
 # Design Source
 https://codepen.io/itslit/full/MvvjZr
