@@ -22,7 +22,7 @@ For a detailed explanation on how things work, check out the [guide](http://vuej
 
 ## Demo Images
 
-<img src="/Screenshots/img1.png" alt="Vueflix Image 1" width= "880px"/>
+<img src="/Screenshots/cover.png" alt="Vueflix Image 1" width= "880px"/>
 
 <img src="/Screenshots/img2.png" alt="Vueflix Image 2" width= "880px"/>
 
