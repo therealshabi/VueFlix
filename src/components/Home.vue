@@ -2,7 +2,7 @@
   <div class="col">
       <div class="header" v-if="movieId==''">
           <span style="color:#FF0000;font-size:64px;">VUEFLIX</span>
-          <span style="color:#fff; font-size:20px;">{{tagline}}</span>
+          <span style="color:#fff; font-size:20px;" v-html="tagline"></span>
       </div>
       <films class= "header" v-else :movie="movies[movieId]" :play="play" @togglePlay="play=!play" @toggleFavorite="toggleFavorite" @goHome = "movieId=''"></films>
       <section id="footer">
@@ -31,7 +31,7 @@ export default {
       movieId: "",
       play:false,
       loading: true,
-      tagline: "What's special? Well, Please Dive in",
+      tagline: "What's special? Well, Please Dive in to FLIX <i class='em-svg em-wink'></i>",
       movies: {},
   }),
   
