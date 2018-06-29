@@ -20,7 +20,7 @@
                 <div style="text-align:left;margin: 5px 40px; line-height:1.2; width:65%; justfy-content:space-around">
                     
                     <p>
-                        <span style="color:white; font-size:40px; font-weight:bold">{{movie.title}}</span><br>
+                        <a style="color:white; font-size:40px; font-weight:bold" :href="homepage" id="title" target="_blank">{{movie.title}}</a><br>
                         <span style="color:red; font-weight:bold">{{this.runtime}} | {{this.genre}} | {{movie.releaseDate}}</span>
                     </p>
 
@@ -76,6 +76,7 @@ export default {
             selectedTab: "Films",
             genre: '',
             runtime:'',
+            homepage: '',
             BASE_YOUTUBE_TRAILER_URL: 'https://www.youtube.com/embed/',
             API_KEY: "ab5a7db6d911744f7e4e910d9eb5582c",
             BASE_URL: "https://api.themoviedb.org/3/movie/",
@@ -138,6 +139,7 @@ export default {
             let hour = Math.floor(duration / 60);
             let min = duration % 60;
             this.runtime = hour + 'hr ' + min + 'min'; 
+            this.homepage = response.data.homepage;
             _.forEach(response.data.genres, (genre, index) => {
                 x.push(genre.name);
                 if(index>1) {
@@ -146,6 +148,35 @@ export default {
             })
             this.genre = x.join(',');
         });
+   },
+
+   created() {
+       const API_KEY = "ab5a7db6d911744f7e4e910d9eb5582c";
+        const BASE_URL = "https://api.themoviedb.org/3/movie/";
+        const BASE_IMAGE_URL = "https://image.tmdb.org/t/p/w300_and_h450_bestv2";
+
+        axios.get(BASE_URL+this.movie.id, {
+            params : {
+                api_key : API_KEY,
+                language : "en-US",
+            }
+
+        }).then(response => {
+            console.log(response);
+            let x = [];
+            let duration = response.data.runtime;
+            let hour = Math.floor(duration / 60);
+            let min = duration % 60;
+            this.runtime = hour + 'hr ' + min + 'min'; 
+            this.homepage = response.data.homepage;
+            _.forEach(response.data.genres, (genre, index) => {
+                x.push(genre.name);
+                if(index>1) {
+                    return false;
+                }
+            })
+            this.genre = x.join(',');
+        });``
    }
 }
 </script>
@@ -164,7 +195,7 @@ export default {
         flex-direction: column;
         height:100%;
         justify-content:space-between;
-    } 
+    }
 
     .header {
         display: flex;
@@ -237,4 +268,13 @@ export default {
         box-shadow : 0px 0px 100px 20px #000000;
     }
 
+    #title:hover {
+        cursor: pointer;
+        color: #0CBBFF !important;
+    }
+
+    a {
+        color: white;
+        text-decoration: none;
+    }
 </style>
