@@ -1,6 +1,8 @@
 <template>
 <div :style='{backgroundImage: `url(${movie.largeImgSrc})`}' :class="{'films-bg': true, favorite: movie.favorite}">
-    <iframe :src="trailerPath" style="width:100%; height:100%" frameborder="0" allowfullscreen v-if="play"></iframe>
+    <div v-if="play" class="iframe-loader">
+        <iframe :src="trailerPath" style="width:100%; height:100%" frameborder="0" allowfullscreen></iframe>
+    </div>
     <div style="width:100%" v-else> 
         <div class="header">
             <i class="material-icons" style="font-size:48px;color:red;cursor: pointer; margin:auto 0">menu</i>
@@ -69,8 +71,6 @@ export default {
       };
   },
   methods: {
-
-
       toggleFav() {
           this.$emit('toggleFavorite',this.movie.id);
           this.$forceUpdate();
@@ -84,6 +84,7 @@ export default {
       },
 
       fetchYoutubeURL() {
+          this.$emit('togglePlay');
           axios.get(this.BASE_URL+this.movie.id+'/videos', {
             params : {
                 api_key : this.API_KEY,
@@ -93,7 +94,6 @@ export default {
         }).then(response => {
             console.log(response.data.results[0].key);
             this.trailerPath = this.BASE_YOUTUBE_TRAILER_URL+response.data.results[0].key;
-            this.$emit('togglePlay');
         });
       },
 
@@ -140,11 +140,6 @@ export default {
 </style>
 
 <style scoped>
-    /* .row {
-        display: flex;
-        flex-direction: row;
-        justify-content: space-around;
-    } */
 
     .col {
         display: flex;
@@ -169,6 +164,8 @@ export default {
         /* Important for applying gradient to background images*/
         background-color: rgba(0, 0, 0, 0.7);
         background-blend-mode: multiply;
+        width:100%;
+        height:100%;
         padding:0px;
     }
 
@@ -204,4 +201,12 @@ export default {
         text-overflow: ellipsis;
         max-height: 6em;
     }
+
+    .iframe-loader {
+        background:url(../assets/images/loading.gif) center center no-repeat;
+        background-size: 85px;
+        width:100%;
+        height:100%;
+    }
+
 </style>
